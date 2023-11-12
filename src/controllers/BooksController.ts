@@ -73,6 +73,12 @@ export const deleteBook = async (req:Request,res:Response) => {
         const isbn = req.params?.isbn;
         if(isbn == null) throw new ValidationException("Please provide ISBN value");
 
+        const book = await DBConnection.manager.findOne(Book,{where:{isbn:isbn},relations: ['borrowedBy']});
+        const isBorrowed = book?.borrowedBy;
+        if(isBorrowed != null && isBorrowed.length > 0){
+            throw new ValidationException("Book cant be deleted as it is still borrowed by a borrower")
+        }
+
         const result = await DBConnection.manager.delete(Book,{isbn:isbn});
         res.status(200).json({"data":result});
     }

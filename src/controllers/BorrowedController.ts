@@ -6,7 +6,7 @@ import { ValidationException } from '../exceptions/ValidationException';
 import { GeneralException } from '../exceptions/GeneralException';
 import { Borrowed } from '../entities/Borrowed';
 import { validateEmail } from '../utils/Validations';
-import { LessThan, LessThanOrEqual, MoreThan } from 'typeorm';
+import { LessThan } from 'typeorm';
 
 export const borrowBook = async (req:Request,res:Response) => {
     try{

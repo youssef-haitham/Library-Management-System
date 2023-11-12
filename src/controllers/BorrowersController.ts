@@ -71,6 +71,12 @@ export const deleteBorrower = async (req:Request,res:Response) => {
         }
         validateEmail(req.body.email);
 
+        const borrower = await DBConnection.manager.findOne(Borrower,{where:{email:email},relations: ['borrowedBooks']});
+        const isBorrowing = borrower?.borrowedBooks;
+        if(isBorrowing != null && isBorrowing.length > 0){
+            throw new ValidationException("Borrower can't be deleted as the borrower still has borrowed books")
+        }
+
         const result = await DBConnection.manager.delete(Borrower,{email:email});
         res.status(200).json({"data":result});
     }
