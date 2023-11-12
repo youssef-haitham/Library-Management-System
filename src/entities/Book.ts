@@ -1,5 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Borrowed } from "./Borrowed";
 @Entity('books')
 export class Book {
     @PrimaryGeneratedColumn()
@@ -19,4 +19,7 @@ export class Book {
     
     @Column({ type: 'nvarchar' })
     shelf_location: string;
+
+    @OneToMany(() => Borrowed, (borrowed) => borrowed.book)
+    borrowedBy: Borrowed[];
 }

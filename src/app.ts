@@ -3,6 +3,7 @@ import { DBConnection } from './config/DBConnection';
 import Middleware from './config/Middleware';
 import BooksRouter from './routes/BooksRouter';
 import BorrowersRouter from './routes/BorrowersRouter';
+import BorrowedRouter from './routes/BorrowedRouter';
 
 DBConnection.initialize().then(() => {
    const app = express();
@@ -10,7 +11,7 @@ DBConnection.initialize().then(() => {
 
    app.use(Middleware);
    
-   app.use('/api', [BooksRouter,BorrowersRouter]);
+   app.use('/api', [BooksRouter,BorrowersRouter,BorrowedRouter]);
 
   app.get('/', async (req, res) => {
     try {

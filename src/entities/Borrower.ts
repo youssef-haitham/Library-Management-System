@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Borrowed } from "./Borrowed";
 
 @Entity('borrowers')
 export class Borrower {
@@ -13,4 +14,7 @@ export class Borrower {
 
     @Column({type: 'timestamp'})
     registered_date: Date;
+
+    @OneToMany(() => Borrowed, (borrowed) => borrowed.borrower)
+    borrowedBooks: Borrowed[];
 }
