@@ -1,23 +1,27 @@
 import express from 'express';
+import { DBConnection } from './config/DBConnection';
 import Middleware from './config/Middleware';
 import BooksRouter from './routes/BooksRouter';
+import BorrowersRouter from './routes/BorrowersRouter';
 
-const app = express();
-const port = 3000;
+DBConnection.initialize().then(() => {
+   const app = express();
+   const port = 3000;
 
-app.use(Middleware);
+   app.use(Middleware);
+   
+   app.use('/api', [BooksRouter,BorrowersRouter]);
 
-app.use('/api', BooksRouter);
+  app.get('/', async (req, res) => {
+    try {
+      res.status(200).send("Alive");
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+  });
 
-app.get('/', async (req, res) => {
-  try {
-    res.status(200).send("Alive");
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-});
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
+})

@@ -24,7 +24,9 @@
     "helmet": "^7.1.0",
     "morgan": "^1.10.0",
     "mysql2": "^3.6.3",
+    "reflect-metadata": "^0.1.13",
     "ts-node": "^10.9.1",
+    "typeorm": "^0.3.17",
     "typescript": "^5.2.2"
   }
 }

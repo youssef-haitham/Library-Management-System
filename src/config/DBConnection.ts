@@ -1,19 +1,15 @@
-import mysql, { Connection } from 'mysql2/promise';
-import dotenv from 'dotenv';
+import 'dotenv/config';
+import 'reflect-metadata';
+import { DataSource } from "typeorm";
 
-dotenv.config();
+const port = process.env.PORT as number | undefined;
 
-const connectionConfig = {
-    host: process.env.HOST,
-    port: parseInt(process.env.PORT||"0",10),
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE
-};
-
-const createConnection = async (): Promise<Connection> => {
-  const connection = await mysql.createConnection(connectionConfig);
-  return connection;
-};
-
-export default createConnection;
+export const DBConnection = new DataSource({
+   type: 'mysql',
+   host: process.env.HOST,
+   port: port,
+   username: process.env.USER,
+   password: process.env.PASSWORD,
+   database: process.env.DATABASE,
+   entities: ["src/entities/*.ts"]
+});
